@@ -8,8 +8,8 @@
 // Chassis constructor
 ez::Drive chassis(
     // These are your drive motors, the first motor is used for sensing!
-    {1, 7, 2},     // Left Chassis Ports (negative port will reverse it!)
-    {-10, -6, -15},  // Right Chassis Ports (negative port will reverse it!)
+    {-10, -6, -15},     // Left Chassis Ports (negative port will reverse it!)
+    {1, 7, 2},  // Right Chassis Ports (negative port will reverse it!)
 
     12,      // IMU Port
     2.75,  // Wheel Diameter (Remember, 4" wheels without screw holes are actually 4.125!)
@@ -94,7 +94,7 @@ void initialize() {
 
   // Initialize chassis and auton selector
   chassis.initialize();
-  //ez::as::initialize();
+  ez::as::initialize();
 
   lb.tare_position();
   lbPID.exit_condition_set(80, 50, 300, 150, 500, 500);
@@ -305,13 +305,20 @@ void opcontrol() {
     setIntake((master.get_digital(DIGITAL_R1)-master.get_digital(DIGITAL_R2))*127);
     
     if(master.get_digital(DIGITAL_A)){
+      pros::delay(100);
       Clamp1.toggle();
+      pros::delay(200);
     }
     if(master.get_digital(DIGITAL_B)){
+      pros::delay(100);
       Doinker1.toggle();
+      pros::delay(200);
     }
     
     if(master.get_digital_new_press(DIGITAL_RIGHT)){
+     
+     
+     
       if (moddle_stage == true){
         lbPID.target_set(120);
         moddle_stage = false;
@@ -319,7 +326,7 @@ void opcontrol() {
         lbPID.target_set(650);
       }
     }
-    else if(master.get_digital(DIGITAL_DOWN)){
+    else if(master.get_digital(DIGITAL_LEFT)){
       lbPID.target_set(0);
       moddle_stage = true;
     }
@@ -327,6 +334,7 @@ void opcontrol() {
     if(!(countController %25)){
       master.print(0,0,"%lf", lb.get_position());
     }
+
     countController++;
 
     pros::delay(ez::util::DELAY_TIME);  // This is used for timer calculations!  Keep this ez::util::DELAY_TIME
