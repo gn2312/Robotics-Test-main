@@ -1,4 +1,5 @@
 #include "main.h"
+#include "helpers.hpp"
 
 /////
 // For installation, upgrading, documentations, and tutorials, check out our website!
@@ -52,15 +53,19 @@ void test(){
 }
 
 void leftSide(){
-  chassis.pid_turn_set(320_deg, DRIVE_SPEED, ez::shortest);
-  chassis.pid_wait();
-  chassis.pid_drive_set(4_in, DRIVE_SPEED, true);
-  chassis.pid_wait_until(2_in);
-  setIntake(127);
 }
 
 void rightSide(){
-
+  chassis.pid_odom_set({{-1.3777_in, 10_in}, fwd, 127});
+  chassis.pid_wait();
+  chassis.pid_odom_set({{-2_in, 21_in}, fwd, 127});
+  chassis.pid_wait();
+  Doinker1.toggle();
+  chassis.pid_drive_set(-20_in, DRIVE_SPEED, true);
+  chassis.pid_wait();
+  pros::delay(3000);
+  setIntake(127);
+  pros::delay(1000);
 }
 
 void soloWP(){
@@ -68,7 +73,28 @@ void soloWP(){
 }
 
 void Skills(){
-  
+  setIntake(127);
+  pros::delay(350);
+  setIntake(0);
+  chassis.pid_drive_set(12_in, 127, true);
+  chassis.pid_wait();
+  chassis.pid_turn_set(-90_deg, TURN_SPEED);
+  chassis.pid_wait();
+  chassis.pid_drive_set(-19_in, DRIVE_SPEED, true);
+  chassis.pid_wait_until(-17_in);
+  Clamp1.toggle();
+  chassis.pid_wait();
+  chassis.pid_turn_set(0_deg, TURN_SPEED);
+  chassis.pid_wait();
+  setIntake(127);
+  chassis.pid_drive_set(16.5_in, 127, true);
+  chassis.pid_wait();
+  chassis.pid_turn_set(90_deg, TURN_SPEED);
+  chassis.pid_wait();
+  chassis.pid_drive_set(19_in, 127, true);
+  chassis.pid_wait();
+  pros::delay(5000);
+  chassis.pid_wait();
 }
 
 

@@ -59,10 +59,11 @@ void initialize() {
 
   // Autonomous Selector using LLEMU
   ez::as::auton_selector.autons_add({
+
+    Auton("skills",Skills),
     Auton("left Side",leftSide),
     Auton("right Side",rightSide),
     Auton("Solo wp", soloWP),
-    Auton("skills",Skills),
     Auton("test",test),
 
     Auton("drive 48", drive_48),
@@ -323,7 +324,7 @@ void opcontrol() {
         lbPID.target_set(120);
         moddle_stage = false;
       } else{
-        lbPID.target_set(650);
+        lbPID.target_set(700);
       }
     }
     else if(master.get_digital(DIGITAL_LEFT)){
